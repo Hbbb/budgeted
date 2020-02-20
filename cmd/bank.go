@@ -1,7 +1,11 @@
 package cmd
 
 import (
+	"bdgt/pkg/banks"
+	"fmt"
+
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var bankCmd = &cobra.Command{
@@ -14,7 +18,21 @@ var bankAddCmd = &cobra.Command{
 	Args:         cobra.ExactArgs(2),
 	Short:        "adds bank to manifest for transaction fetching",
 	Run: func(cmd *cobra.Command, args []string) {
+		bankName := args[0]
+		publicToken := args[1]
 
+		clientID := viper.GetString("plaid-client-id")
+		publicKey := viper.GetString("plaid-public-key")
+		secret := viper.GetString("plaid-secret")
+		authClient := banks.NewAuthClient(clientID, publicKey, secret)
+
+		accessToken, err := authClient.ExchangePublicToken(publicToken)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(accessToken)
+		banks.Add(bankName, accessToken)
 	},
 }
 
