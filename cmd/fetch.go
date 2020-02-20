@@ -41,7 +41,6 @@ func init() {
 	rootCmd.AddCommand(fetchCmd)
 
 	isoFormat := "2006-01-02"
-
 	start := time.Now()
 	end := start.Add(24 * time.Hour)
 
