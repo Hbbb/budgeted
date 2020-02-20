@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/joho/godotenv v1.3.0
 	github.com/pelletier/go-toml v1.6.0 // indirect
+	github.com/plaid/plaid-go v0.0.0-20200211175510-e063495ea9cd
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v0.0.5
