@@ -17,23 +17,15 @@ type bankConfig struct {
 
 // Add adds a bank to the config store
 func Add(bankName string, accessToken string) error {
-	f, err := ioutil.ReadFile("banks.json")
+	config, err := getConfig()
 	if err != nil {
 		return err
 	}
 
-	config := &configStore{}
-	json.Unmarshal(f, &config)
-
 	banksList := append(config.Banks, bankConfig{Name: bankName, AccessToken: accessToken})
 	config.Banks = banksList
 
-	configBytes, err := json.Marshal(config)
-	if err != nil {
-		return errors.New("banks: error adding new bank")
-	}
-
-	err = ioutil.WriteFile("banks.json", configBytes, 644)
+	err = setConfig(config)
 	if err != nil {
 		return err
 	}
@@ -43,5 +35,47 @@ func Add(bankName string, accessToken string) error {
 
 // Remove removes a bank from the config store
 func Remove(bankName string) error {
+	config, err := getConfig()
+	if err != nil {
+		return err
+	}
+
+	for i, bank := range config.Banks {
+		if bank.Name == bankName {
+			config.Banks = append(config.Banks[:i], config.Banks[i+1:]...)
+		}
+	}
+
+	err = setConfig(config)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func getConfig() (*configStore, error) {
+	f, err := ioutil.ReadFile("banks.json")
+	if err != nil {
+		return nil, err
+	}
+
+	config := &configStore{}
+	json.Unmarshal(f, &config)
+
+	return config, nil
+}
+
+func setConfig(config *configStore) error {
+	configBytes, err := json.Marshal(config)
+	if err != nil {
+		return errors.New("banks: writing config to file")
+	}
+
+	err = ioutil.WriteFile("banks.json", configBytes, 644)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
