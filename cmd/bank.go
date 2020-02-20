@@ -39,10 +39,15 @@ var bankAddCmd = &cobra.Command{
 var bankRemoveCmd = &cobra.Command{
 	SilenceUsage: true,
 	Use:          "remove [bankName]",
-	Args:         cobra.ExactArgs(2),
+	Args:         cobra.ExactArgs(1),
 	Short:        "removes bank from manifest",
 	Run: func(cmd *cobra.Command, args []string) {
+		bankName := args[0]
 
+		err := banks.Remove(bankName)
+		if err != nil {
+			panic(err)
+		}
 	},
 }
 
