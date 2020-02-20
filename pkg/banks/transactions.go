@@ -6,7 +6,8 @@ import (
 	"github.com/plaid/plaid-go/plaid"
 )
 
-// FetchTransactions exists
+// FetchTransactions fetches all transactions between two dates from the Plaid API. It will recursively
+// fetch all transactions if there are more than 100 returned from the initial request.
 func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]plaid.Transaction, error) {
 	if bc.plaidClient == nil {
 		return nil, errors.New("banks: must use NewBankClient initializer before using the BankClient")
