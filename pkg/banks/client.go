@@ -1,5 +1,11 @@
 package banks
 
+import (
+	"net/http"
+
+	"github.com/plaid/plaid-go/plaid"
+)
+
 // BankClient wraps the Plaid API Client and stores the necessary parameters to create
 // instances of the plaid.Client
 type BankClient struct {

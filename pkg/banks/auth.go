@@ -2,9 +2,6 @@ package banks
 
 import (
 	"errors"
-	"net/http"
-
-	"github.com/plaid/plaid-go/plaid"
 )
 
 // ExchangePublicToken exchanges a public token for a secret access token
