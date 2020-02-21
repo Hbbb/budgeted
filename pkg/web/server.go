@@ -6,7 +6,7 @@ import (
 )
 
 // Serve serves a webserver
-func Serve(plaidEnv string, plaidPublicKey string) {
+func Serve(plaidEnv string, plaidPublicKey string) error {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.Must(template.ParseFiles("pkg/web/public/index.html"))
 
@@ -18,5 +18,5 @@ func Serve(plaidEnv string, plaidPublicKey string) {
 		tmpl.Execute(w, data)
 	})
 
-	http.ListenAndServe(":80", nil)
+	return http.ListenAndServe(":80", nil)
 }

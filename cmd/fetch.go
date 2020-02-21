@@ -16,24 +16,26 @@ var endDate string
 var fetchCmd = &cobra.Command{
 	Use:   "fetch",
 	Short: "Fetch transactions",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid-client-id")
 		publicKey := viper.GetString("plaid-public-key")
 		secret := viper.GetString("plaid-secret")
 
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		transactions, err := bankClient.FetchTransactions(startDate, endDate)
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		for _, transaction := range transactions {
 			fmt.Printf("%v %v - %v\n", transaction.Date, transaction.Name, transaction.Amount)
 		}
+
+		return nil
 	},
 }
 

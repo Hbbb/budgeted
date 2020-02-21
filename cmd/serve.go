@@ -14,18 +14,17 @@ var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "start a local webserver that hosts the Plaid authentication UI",
 	Long:  ``,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		plaidEnv := viper.GetString("plaid-env")
 
 		if len(publicKey) < 1 {
-			fmt.Println("missing plaid public key")
-			return
+			return fmt.Errorf("missing plaid public key")
 		}
 
-		// TODO: Add instruction text to Plaid auth website
 		fmt.Println(`Open http://localhost:80 and follow the steps to get Plaid bank credentials.
 When you're finished, kill the process running this server.`)
-		web.Serve(plaidEnv, publicKey)
+
+		return web.Serve(plaidEnv, publicKey)
 	},
 }
 
