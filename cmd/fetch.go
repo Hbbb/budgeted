@@ -11,6 +11,7 @@ import (
 
 var startDate string
 var endDate string
+var outputFile string
 
 // fetchCmd represents the fetch command
 var fetchCmd = &cobra.Command{
@@ -31,6 +32,7 @@ var fetchCmd = &cobra.Command{
 			return err
 		}
 
+		fmt.Println("date name amount")
 		for _, transaction := range transactions {
 			fmt.Printf("%v %v - %v\n", transaction.Date, transaction.Name, transaction.Amount)
 		}
@@ -48,4 +50,5 @@ func init() {
 
 	fetchCmd.Flags().StringVarP(&startDate, "start-date", "s", start.Format(isoFormat), "start date formatted YYYY-MM-DD")
 	fetchCmd.Flags().StringVarP(&endDate, "end-date", "e", end.Format(isoFormat), "end date formatted YYYY-MM-DD")
+	fetchCmd.Flags().StringVarP(&outputFile, "output", "o", "", "output file path")
 }

@@ -6,9 +6,19 @@ import (
 	"github.com/plaid/plaid-go/plaid"
 )
 
+// Transaction is the data we care about from Plaid
+type Transaction struct {
+	Name      string  `json:"name"`
+	Amount    float64 `json:"amount"`
+	Date      string  `json:"date"`
+	AccountID string  `json:"account_id"`
+	City      string  `json:"city"`
+	ID        string  `json:"id"`
+}
+
 // FetchTransactions fetches all transactions between two dates from the Plaid API. It will recursively
 // fetch all transactions if there are more than 100 returned from the initial request.
-func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]plaid.Transaction, error) {
+func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]Transaction, error) {
 	if bc.plaidClient == nil {
 		return nil, errors.New("banks: must use NewBankClient initializer before using the BankClient")
 	}
@@ -18,7 +28,7 @@ func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]plaid.Tran
 		return nil, err
 	}
 
-	var transactions []plaid.Transaction
+	var transactions []Transaction
 	for _, bank := range config.Banks {
 		ts, err := bc.fetch(bank.AccessToken, startDate, endDate, transactions)
 		if err != nil {
@@ -31,7 +41,7 @@ func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]plaid.Tran
 	return transactions, nil
 }
 
-func (bc *BankClient) fetch(accessToken, startDate, endDate string, transactions []plaid.Transaction) ([]plaid.Transaction, error) {
+func (bc *BankClient) fetch(accessToken, startDate, endDate string, transactions []Transaction) ([]Transaction, error) {
 	opts := plaid.GetTransactionsOptions{
 		StartDate:  startDate,
 		EndDate:    endDate,
@@ -45,7 +55,21 @@ func (bc *BankClient) fetch(accessToken, startDate, endDate string, transactions
 		return nil, err
 	}
 
-	transactions = append(transactions, resp.Transactions...)
+	var newTrans []Transaction
+	for _, tr := range resp.Transactions {
+		t := Transaction{
+			ID:        tr.ID,
+			Name:      tr.Name,
+			Amount:    tr.Amount,
+			Date:      tr.Date,
+			AccountID: tr.AccountID,
+			City:      tr.Location.City,
+		}
+
+		newTrans = append(newTrans, t)
+	}
+
+	transactions = append(transactions, newTrans...)
 
 	if len(transactions) < resp.TotalTransactions {
 		return bc.fetch(accessToken, startDate, endDate, transactions)
