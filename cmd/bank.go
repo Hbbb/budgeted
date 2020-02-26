@@ -20,7 +20,7 @@ var bankAddCmd = &cobra.Command{
 		bankName := args[0]
 		publicToken := args[1]
 
-		clientID := "23lkj423lkj" //viper.GetString("plaid-client-id")
+		clientID := viper.GetString("plaid-client-id")
 		publicKey := viper.GetString("plaid-public-key")
 		secret := viper.GetString("plaid-secret")
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
