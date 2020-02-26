@@ -3,6 +3,8 @@ package cmd
 import (
 	"bdgt/pkg/banks"
 	"fmt"
+	"os"
+	"text/tabwriter"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -32,10 +34,13 @@ var fetchCmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Println("date name amount")
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
+		fmt.Fprintln(w, "transaction id\t account id\t date\t name\t amount\t city")
 		for _, transaction := range transactions {
-			fmt.Printf("%v %v - %v\n", transaction.Date, transaction.Name, transaction.Amount)
+			fmt.Fprintf(w, "%v\t %v\t %v\t %v\t %v\t %v", transaction.ID, transaction.AccountID, transaction.Date, transaction.Name, transaction.Amount, transaction.City)
+			fmt.Fprintln(w, "")
 		}
+		w.Flush()
 
 		return nil
 	},
