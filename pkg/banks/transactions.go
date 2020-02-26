@@ -2,18 +2,19 @@ package banks
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/plaid/plaid-go/plaid"
 )
 
 // Transaction is the data we care about from Plaid
 type Transaction struct {
-	Name      string  `json:"name"`
-	Amount    float64 `json:"amount"`
-	Date      string  `json:"date"`
-	AccountID string  `json:"account_id"`
-	City      string  `json:"city"`
-	ID        string  `json:"id"`
+	Name      string `json:"name"`
+	Amount    string `json:"amount"`
+	Date      string `json:"date"`
+	AccountID string `json:"account_id"`
+	City      string `json:"city"`
+	ID        string `json:"id"`
 }
 
 // FetchTransactions fetches all transactions between two dates from the Plaid API. It will recursively
@@ -60,7 +61,7 @@ func (bc *BankClient) fetch(accessToken, startDate, endDate string, transactions
 		t := Transaction{
 			ID:        tr.ID,
 			Name:      tr.Name,
-			Amount:    tr.Amount,
+			Amount:    fmt.Sprintf("%f", tr.Amount),
 			Date:      tr.Date,
 			AccountID: tr.AccountID,
 			City:      tr.Location.City,
