@@ -53,7 +53,7 @@ func init() {
 	start := time.Now()
 	end := start.Add(24 * time.Hour)
 
-	fetchCmd.Flags().StringVarP(&startDate, "start-date", "s", start.Format(isoFormat), "start date formatted YYYY-MM-DD")
-	fetchCmd.Flags().StringVarP(&endDate, "end-date", "e", end.Format(isoFormat), "end date formatted YYYY-MM-DD")
+	fetchCmd.Flags().StringVar(&startDate, "start", start.Format(isoFormat), "start date formatted YYYY-MM-DD")
+	fetchCmd.Flags().StringVar(&endDate, "end", end.Format(isoFormat), "end date formatted YYYY-MM-DD")
 	fetchCmd.Flags().StringVarP(&outputFile, "output", "o", "", "output file path")
 }
