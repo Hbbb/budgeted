@@ -15,9 +15,6 @@ func (w *Writer) Write(data [][]interface{}) error {
 	var vr sheets.ValueRange
 	vr.Range = writeRange
 
-	// Write headers
-	vr.Values = append(vr.Values, []interface{}{"Transaction ID", "Account ID", "Date", "Name", "Amount", "City"})
-
 	for _, values := range data {
 		vr.Values = append(vr.Values, values)
 	}
