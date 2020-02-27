@@ -3,6 +3,7 @@ package cmd
 import (
 	"bdgt/pkg/banks"
 	"bdgt/pkg/spreadsheet"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -48,7 +49,14 @@ var importCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(importCmd)
 
-	writeCmd.Flags().StringVarP(&spreadsheetID,
+	isoFormat := "2006-01-02"
+	start := time.Now()
+	end := start.Add(24 * time.Hour)
+
+	importCmd.Flags().StringVar(&startDate, "start", start.Format(isoFormat), "start date formatted YYYY-MM-DD")
+	importCmd.Flags().StringVar(&endDate, "end", end.Format(isoFormat), "end date formatted YYYY-MM-DD")
+
+	importCmd.Flags().StringVarP(&spreadsheetID,
 		"spreadsheet-id", "s",
 		viper.GetString("spreadsheet-id"),
 		"the ID of spreadsheet to write transaction data to; defaults to SPREADSHEET_ID env var")
