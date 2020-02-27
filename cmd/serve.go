@@ -29,7 +29,7 @@ When you're finished, kill the process running this server.`)
 }
 
 func init() {
-	viper.SetDefault("plaid-env", "development")
+	viper.SetDefault("plaid_env", "development")
 
 	rootCmd.AddCommand(serveCmd)
 
