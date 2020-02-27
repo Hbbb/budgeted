@@ -22,9 +22,9 @@ var fetchCmd = &cobra.Command{
 	Use:   "fetch",
 	Short: "Fetch transactions",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		clientID := viper.GetString("plaid-client-id")
-		publicKey := viper.GetString("plaid-public-key")
-		secret := viper.GetString("plaid-secret")
+		clientID := viper.GetString("plaid_cliend_id")
+		publicKey := viper.GetString("plaid_public_key")
+		secret := viper.GetString("plaid_secret")
 
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
 		if err != nil {
