@@ -1,4 +1,6 @@
 banks.json
 credentials.json
+token.json
+transactions.json
 .env
 bdgt
