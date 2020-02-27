@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"bdgt/pkg/banks"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"text/tabwriter"
 	"time"
@@ -32,6 +34,20 @@ var fetchCmd = &cobra.Command{
 		transactions, err := bankClient.FetchTransactions(startDate, endDate)
 		if err != nil {
 			return err
+		}
+
+		if len(outputFile) > 0 {
+			tbytes, err := json.Marshal(transactions)
+			if err != nil {
+				return err
+			}
+
+			err = ioutil.WriteFile(outputFile, tbytes, 0644)
+			if err != nil {
+				return err
+			}
+
+			return nil
 		}
 
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
