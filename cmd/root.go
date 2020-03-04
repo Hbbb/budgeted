@@ -12,8 +12,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "bdgt",
-	Short: "Bdgt is a tool to pull your bank transactions into a Google Spreadsheet",
+	Use:          "bdgt",
+	Short:        "Bdgt is a tool to pull your bank transactions into a Google Spreadsheet",
+	SilenceUsage: true,
 }
 
 // Execute executes a command

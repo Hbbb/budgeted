@@ -19,8 +19,9 @@ var outputFile string
 
 // fetchCmd represents the fetch command
 var fetchCmd = &cobra.Command{
-	Use:   "fetch",
-	Short: "Fetch transactions",
+	Use:          "fetch",
+	Short:        "Fetch transactions",
+	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid_cliend_id")
 		publicKey := viper.GetString("plaid_public_key")
