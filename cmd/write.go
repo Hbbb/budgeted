@@ -63,7 +63,7 @@ func init() {
 		"file", "f", "",
 		"filepath to transaction data; generate the file by writing the output of the fetch command to a file")
 
-	writeCmd.Flags().StringVarP(&spreadsheetID,
+	writeCmd.Flags().StringVar(&spreadsheetID,
 		"spreadsheet-id",
 		viper.GetString("spreadsheet_id"),
 		"the ID of spreadsheet to write transaction data to; defaults to preconfigured spreadsheet id")
