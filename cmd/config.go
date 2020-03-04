@@ -2,9 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
-	"os"
-	"os/user"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -19,31 +16,13 @@ Find your spreadsheet ID in the URL of your Google Sheet e.g. https://docs.googl
 	`,
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		usr, err := user.Current()
-		if err != nil {
-			return err
-		}
-
-		configPath := usr.HomeDir + "/.budgeted"
-
-		viper.SetConfigName("config.yaml")
-		viper.SetConfigType("yaml")
-
-		viper.AddConfigPath(configPath)
-
-		if err := viper.ReadInConfig(); err != nil {
-			if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-				err = createConfigFile(configPath)
-			}
-		}
-
 		var clientID string
 		var publicKey string
 		var secret string
 		var spreadsheetID string
 
 		fmt.Print("Plaid Client ID: ")
-		_, err = fmt.Scan(&clientID)
+		_, err := fmt.Scan(&clientID)
 		if err != nil {
 			return err
 		}
@@ -79,18 +58,6 @@ Find your spreadsheet ID in the URL of your Google Sheet e.g. https://docs.googl
 		fmt.Println("Configuration saved to ~/.budgeted/config.yaml")
 		return nil
 	},
-}
-
-func createConfigFile(path string) error {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
-	}
-
-	if _, err := os.Stat(path + "/config.yaml"); os.IsNotExist(err) {
-		ioutil.WriteFile(path+"/config.yaml", []byte{}, 0644)
-	}
-
-	return nil
 }
 
 func init() {
