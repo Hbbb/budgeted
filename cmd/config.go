@@ -45,7 +45,7 @@ Find your spreadsheet ID in the URL of your Google Sheet e.g. https://docs.googl
 			return err
 		}
 
-		viper.Set("plaid_cliend_id", clientID)
+		viper.Set("plaid_client_id", clientID)
 		viper.Set("plaid_public_key", publicKey)
 		viper.Set("plaid_secret", secret)
 		viper.Set("spreadsheet_id", spreadsheetID)
