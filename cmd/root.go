@@ -1,10 +1,10 @@
 package cmd
 
 import (
+	"bdgt/pkg/core"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/user"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
@@ -21,12 +21,10 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	godotenv.Load()
 
-	usr, err := user.Current()
+	configPath, err := core.ConfigPath()
 	if err != nil {
 		panic(err)
 	}
-
-	configPath := usr.HomeDir + "/.budgeted"
 
 	viper.SetConfigName("config.yaml")
 	viper.SetConfigType("yaml")
