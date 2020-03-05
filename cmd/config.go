@@ -1,7 +1,10 @@
 package cmd
 
 import (
+	"bdgt/pkg/core"
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -55,6 +58,20 @@ Find your spreadsheet ID in the URL of your Google Sheet e.g. https://docs.googl
 			return err
 		}
 
+		configDir, err := core.ConfigPath()
+		if err != nil {
+			return err
+		}
+
+		_, err = os.Stat(configDir + "/banks.json")
+		if os.IsNotExist(err) {
+			err = ioutil.WriteFile(configDir+"/banks.json", []byte{}, 0644)
+			if err != nil {
+				return err
+			}
+		}
+
+		fmt.Println("Writing banks.json")
 		fmt.Println("Configuration saved to ~/.budgeted/config.yaml")
 		return nil
 	},
