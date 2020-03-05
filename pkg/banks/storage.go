@@ -1,16 +1,17 @@
 package banks
 
 import (
+	"bdgt/pkg/core"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
 )
 
-type configStore struct {
-	Banks []bankConfig `json:"banks"`
+type banks struct {
+	Banks []bank `json:"banks"`
 }
 
-type bankConfig struct {
+type bank struct {
 	Name        string `json:"name"`
 	AccessToken string `json:"accessToken"`
 }
@@ -22,7 +23,7 @@ func Add(bankName string, accessToken string) error {
 		return err
 	}
 
-	banksList := append(config.Banks, bankConfig{Name: bankName, AccessToken: accessToken})
+	banksList := append(config.Banks, bank{Name: bankName, AccessToken: accessToken})
 	config.Banks = banksList
 
 	err = setConfig(config)
@@ -54,25 +55,35 @@ func Remove(bankName string) error {
 	return nil
 }
 
-func getConfig() (*configStore, error) {
-	f, err := ioutil.ReadFile("banks.json")
+func getConfig() (*banks, error) {
+	cPath, err := core.ConfigPath()
 	if err != nil {
 		return nil, err
 	}
 
-	config := &configStore{}
+	f, err := ioutil.ReadFile(cPath + "/banks.json")
+	if err != nil {
+		return nil, err
+	}
+
+	config := &banks{}
 	json.Unmarshal(f, &config)
 
 	return config, nil
 }
 
-func setConfig(config *configStore) error {
+func setConfig(config *banks) error {
 	configBytes, err := json.Marshal(config)
 	if err != nil {
 		return errors.New("banks: writing config to file")
 	}
 
-	err = ioutil.WriteFile("banks.json", configBytes, 644)
+	cPath, err := core.ConfigPath()
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(cPath+"/banks.json", configBytes, 644)
 	if err != nil {
 		return err
 	}
