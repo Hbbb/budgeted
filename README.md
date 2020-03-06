@@ -2,11 +2,29 @@
 
 A command line tool to import budget data into Google Sheets.
 
+## Getting Started
+
+To start using budgeted, you'll need a few things:
+1. A [Plaid Developer Account](https://dashboard.plaid.com/overview/development)
+2. A [Google Sheets Account](https://docs.google.com/spreadsheets/u/0/)
+3. An existing spreadsheet with *at least* the required raw data sheet in the first position of the workbook.
+
+### Setting up the Sheet
+
+Budgeted is opinionated about the way it writes data to the spreadsheet. The idea is that you create a sheet that budgeted will write raw transaction data to, but isn't useful to humans. Then, you can create additional sheets with different views of the data, visualizations, pivot tables to map account IDs to human-readable strings, etc.
+
+The headers for the raw sheet should look like this:
+```
+Transaction ID	Account ID	Date	Name  Amount	City
+```
+
+**It is important that the raw data sheet is in the first position in the workbook!**
+
 ## Commands
 
 ## bdgt config
 
-Configure Plaid API keys and Google Sheets Spreadsheet ID
+Configure Plaid API keys and Google Spreadsheet ID
 
 ### Synopsis
 
