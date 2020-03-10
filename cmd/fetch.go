@@ -23,7 +23,7 @@ var fetchCmd = &cobra.Command{
 	Short:        "Fetch transactions",
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		clientID := viper.GetString("plaid_cliend_id")
+		clientID := viper.GetString("plaid_client_id")
 		publicKey := viper.GetString("plaid_public_key")
 		secret := viper.GetString("plaid_secret")
 
