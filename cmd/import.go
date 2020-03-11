@@ -16,8 +16,24 @@ var importCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid_client_id")
 		publicKey := viper.GetString("plaid_public_key")
-		spreadsheetID := viper.GetString("spreadsheet_id")
 		secret := viper.GetString("plaid_secret")
+		spreadsheetID := viper.GetString("spreadsheet_id")
+
+		if clientID == "" {
+			return errMissingClientID
+		}
+
+		if publicKey == "" {
+			return errMissingPublicKey
+		}
+
+		if secret == "" {
+			return errMissingSecret
+		}
+
+		if spreadsheetID == "" {
+			return errMissingSpreadsheetID
+		}
 
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
 		if err != nil {

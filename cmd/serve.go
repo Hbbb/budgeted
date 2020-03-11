@@ -17,6 +17,14 @@ var serveCmd = &cobra.Command{
 		plaidEnv := viper.GetString("plaid_env")
 		publicKey := viper.GetString("plaid_public_key")
 
+		if plaidEnv == "" {
+			return errMissingPlaidEnv
+		}
+
+		if publicKey == "" {
+			return errMissingPublicKey
+		}
+
 		fmt.Println(`Open http://localhost:80 and follow the steps to get Plaid bank credentials.
 When you're finished, kill the process running this server.`)
 

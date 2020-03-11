@@ -13,7 +13,6 @@ import (
 
 // flag variables
 var file string
-var spreadsheetID string
 
 var writeCmd = &cobra.Command{
 	Use:           "write",
@@ -21,6 +20,11 @@ var writeCmd = &cobra.Command{
 	SilenceErrors: true,
 	Short:         "write the contents of a JSON file of transaction data to a Google Sheet",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		spreadsheetID := viper.GetString("spreadsheet_id")
+		if spreadsheetID == "" {
+			return errMissingSpreadsheetID
+		}
+
 		if len(file) < 1 {
 			return fmt.Errorf("must pass a valid filepath")
 		}
@@ -62,11 +66,6 @@ func init() {
 	writeCmd.Flags().StringVarP(&file,
 		"file", "f", "",
 		"filepath to transaction data; generate the file by writing the output of the fetch command to a file")
-
-	writeCmd.Flags().StringVar(&spreadsheetID,
-		"spreadsheet-id",
-		viper.GetString("spreadsheet_id"),
-		"the ID of spreadsheet to write transaction data to; defaults to preconfigured spreadsheet id")
 
 	// TODO: Accept input from pipe
 	// info, _ := os.Stdin.Stat()

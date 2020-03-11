@@ -27,6 +27,18 @@ var fetchCmd = &cobra.Command{
 		publicKey := viper.GetString("plaid_public_key")
 		secret := viper.GetString("plaid_secret")
 
+		if clientID == "" {
+			return errMissingClientID
+		}
+
+		if publicKey == "" {
+			return errMissingPublicKey
+		}
+
+		if secret == "" {
+			return errMissingSecret
+		}
+
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
 		if err != nil {
 			return err
