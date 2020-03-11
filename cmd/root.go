@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"bdgt/pkg/core"
+	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -33,7 +33,7 @@ func Execute() {
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			err = createConfigFile(configPath)
+			err = errors.New("not configured. run `config` command to configure bdgt")
 		}
 	}
 
@@ -41,16 +41,4 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-}
-
-func createConfigFile(path string) error {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
-	}
-
-	if _, err := os.Stat(path + "/config.yaml"); os.IsNotExist(err) {
-		ioutil.WriteFile(path+"/config.yaml", []byte{}, 0644)
-	}
-
-	return nil
 }
