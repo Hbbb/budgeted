@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"bdgt/pkg/core"
-	"errors"
 	"fmt"
 	"os"
 
@@ -12,9 +11,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:          "bdgt",
-	Short:        "Bdgt is a tool to pull your bank transactions into a Google Spreadsheet",
-	SilenceUsage: true,
+	Use:           "bdgt",
+	Short:         "Bdgt is a tool to pull your bank transactions into a Google Spreadsheet",
+	SilenceUsage:  true,
+	SilenceErrors: true,
 }
 
 // Execute executes a command
@@ -23,7 +23,8 @@ func Execute() {
 
 	configPath, err := core.ConfigPath()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	viper.SetConfigName("config.yaml")
@@ -33,8 +34,12 @@ func Execute() {
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			err = errors.New("not configured. run `config` command to configure bdgt")
+			err = errNotConfigured
 		}
+	}
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	if err := rootCmd.Execute(); err != nil {
