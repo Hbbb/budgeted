@@ -16,6 +16,7 @@ var importCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid_client_id")
 		publicKey := viper.GetString("plaid_public_key")
+		spreadsheetID := viper.GetString("spreadsheet_id")
 		secret := viper.GetString("plaid_secret")
 
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
@@ -56,9 +57,4 @@ func init() {
 
 	importCmd.Flags().StringVar(&startDate, "start", start.Format(isoFormat), "start date formatted YYYY-MM-DD")
 	importCmd.Flags().StringVar(&endDate, "end", end.Format(isoFormat), "end date formatted YYYY-MM-DD")
-
-	importCmd.Flags().StringVarP(&spreadsheetID,
-		"spreadsheet-id", "s",
-		viper.GetString("spreadsheet-id"),
-		"the ID of spreadsheet to write transaction data to; defaults to SPREADSHEET_ID env var")
 }
