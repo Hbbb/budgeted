@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"os"
 )
 
 type banks struct {
@@ -61,6 +62,10 @@ func getConfig() (*banks, error) {
 		return nil, err
 	}
 
+	if _, err := os.Stat(cPath + "/banks.json"); os.IsNotExist(err) {
+		ioutil.WriteFile(cPath+"/banks.json", []byte{}, 0644)
+	}
+
 	f, err := ioutil.ReadFile(cPath + "/banks.json")
 	if err != nil {
 		return nil, err
@@ -75,7 +80,7 @@ func getConfig() (*banks, error) {
 func setConfig(config *banks) error {
 	configBytes, err := json.Marshal(config)
 	if err != nil {
-		return errors.New("banks: writing config to file")
+		return errors.New("banks: error writing config to file")
 	}
 
 	cPath, err := core.ConfigPath()
