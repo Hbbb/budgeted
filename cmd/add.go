@@ -8,10 +8,9 @@ import (
 )
 
 var bankAddCmd = &cobra.Command{
-	SilenceUsage: true,
-	Use:          "add [bankName] [publicToken]",
-	Args:         cobra.ExactArgs(2),
-	Short:        "adds bank to manifest for transaction fetching",
+	Use:   "add [bankName] [publicToken]",
+	Args:  cobra.ExactArgs(2),
+	Short: "adds bank to manifest for transaction fetching",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		bankName := args[0]
 		publicToken := args[1]

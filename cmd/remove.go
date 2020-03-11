@@ -7,10 +7,9 @@ import (
 )
 
 var bankRemoveCmd = &cobra.Command{
-	SilenceUsage: true,
-	Use:          "remove [bankName]",
-	Args:         cobra.ExactArgs(1),
-	Short:        "removes bank from manifest",
+	Use:   "remove [bankName]",
+	Args:  cobra.ExactArgs(1),
+	Short: "removes bank from manifest",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		bankName := args[0]
 		return banks.Remove(bankName)

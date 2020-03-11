@@ -15,10 +15,8 @@ import (
 var file string
 
 var writeCmd = &cobra.Command{
-	Use:           "write",
-	SilenceUsage:  true,
-	SilenceErrors: true,
-	Short:         "write the contents of a JSON file of transaction data to a Google Sheet",
+	Use:   "write",
+	Short: "write the contents of a JSON file of transaction data to a Google Sheet",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		spreadsheetID := viper.GetString("spreadsheet_id")
 		if spreadsheetID == "" {

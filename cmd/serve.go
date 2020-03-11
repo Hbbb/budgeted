@@ -9,10 +9,9 @@ import (
 )
 
 var serveCmd = &cobra.Command{
-	Use:          "serve",
-	Short:        "start a local webserver that hosts the Plaid authentication UI",
-	Long:         ``,
-	SilenceUsage: true,
+	Use:   "serve",
+	Short: "start a local webserver that hosts the Plaid authentication UI",
+	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		plaidEnv := viper.GetString("plaid_env")
 		publicKey := viper.GetString("plaid_public_key")

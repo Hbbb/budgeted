@@ -10,9 +10,8 @@ import (
 )
 
 var importCmd = &cobra.Command{
-	Use:          "import",
-	Short:        "writes transactions directly to a Google Sheet",
-	SilenceUsage: true,
+	Use:   "import",
+	Short: "writes transactions directly to a Google Sheet",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid_client_id")
 		publicKey := viper.GetString("plaid_public_key")

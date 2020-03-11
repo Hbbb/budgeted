@@ -17,7 +17,6 @@ var configCmd = &cobra.Command{
 Find your Plaid API keys and secrets here: https://dashboard.plaid.com/overview/development
 Find your spreadsheet ID in the URL of your Google Sheet e.g. https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/
 	`,
-	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var clientID string
 		var publicKey string

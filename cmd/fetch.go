@@ -19,9 +19,8 @@ var outputFile string
 
 // fetchCmd represents the fetch command
 var fetchCmd = &cobra.Command{
-	Use:          "fetch",
-	Short:        "Fetch transactions",
-	SilenceUsage: true,
+	Use:   "fetch",
+	Short: "Fetch transactions",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		clientID := viper.GetString("plaid_client_id")
 		publicKey := viper.GetString("plaid_public_key")
@@ -39,6 +38,7 @@ var fetchCmd = &cobra.Command{
 			return errMissingSecret
 		}
 
+		// NOTE: This always uses Plaid development env, which I guess is fine for now
 		bankClient, err := banks.NewBankClient(clientID, publicKey, secret)
 		if err != nil {
 			return err
