@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"bdgt/pkg/banks"
-	"bdgt/pkg/spreadsheet"
+	"bdgt/pkg/sheets"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -50,7 +50,7 @@ var importCmd = &cobra.Command{
 			writeData = append(writeData, row)
 		}
 
-		writer := spreadsheet.Writer{
+		writer := sheets.Writer{
 			SpreadsheetID: spreadsheetID,
 		}
 

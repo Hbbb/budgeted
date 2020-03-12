@@ -1,4 +1,4 @@
-package spreadsheet
+package sheets
 
 import (
 	"context"
@@ -11,10 +11,11 @@ import (
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"google.golang.org/api/sheets/v4"
+	gsheets "google.golang.org/api/sheets/v4"
 )
 
-func newSheetsService() (*sheets.Service, error) {
+// TODO: Handle errors
+func newSheetsService() (*gsheets.Service, error) {
 	f, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		return nil, err
@@ -27,7 +28,7 @@ func newSheetsService() (*sheets.Service, error) {
 
 	client := getClient(config)
 
-	srv, err := sheets.New(client)
+	srv, err := gsheets.New(client)
 	if err != nil {
 		return nil, err
 	}

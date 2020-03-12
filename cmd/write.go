@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"bdgt/pkg/banks"
-	"bdgt/pkg/spreadsheet"
+	"bdgt/pkg/sheets"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -39,7 +39,7 @@ var writeCmd = &cobra.Command{
 			return err
 		}
 
-		writer := spreadsheet.Writer{
+		writer := sheets.Writer{
 			SpreadsheetID: spreadsheetID,
 		}
 

@@ -1,6 +1,6 @@
-package spreadsheet
+package sheets
 
-import "google.golang.org/api/sheets/v4"
+import gsheets "google.golang.org/api/sheets/v4"
 
 const writeRange = "!A2:D"
 
@@ -9,10 +9,11 @@ type Writer struct {
 	SpreadsheetID string
 }
 
+// TODO: Handle errors
 func (w *Writer) Write(data [][]interface{}) error {
 	srv, err := newSheetsService()
 
-	var vr sheets.ValueRange
+	var vr gsheets.ValueRange
 	vr.Range = writeRange
 
 	for _, values := range data {
