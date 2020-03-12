@@ -3,12 +3,11 @@ package cmd
 import (
 	"bdgt/pkg/banks"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
-	"text/tabwriter"
 	"time"
 
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -63,13 +62,12 @@ var fetchCmd = &cobra.Command{
 			return nil
 		}
 
-		w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
-		fmt.Fprintln(w, "transaction id\t account id\t date\t name\t amount\t city")
+		w := tablewriter.NewWriter(os.Stdout)
+		w.SetHeader([]string{"transaction id", "account id", "date", "name", "amount", "city"})
 		for _, transaction := range transactions {
-			fmt.Fprintf(w, "%v\t %v\t %v\t %v\t %v\t %v", transaction.ID, transaction.AccountID, transaction.Date, transaction.Name, transaction.Amount, transaction.City)
-			fmt.Fprintln(w, "")
+			w.Append([]string{transaction.ID, transaction.AccountID, transaction.Date, transaction.Name, transaction.Amount, transaction.City})
 		}
-		w.Flush()
+		w.Render()
 
 		return nil
 	},
