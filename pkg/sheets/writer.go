@@ -12,6 +12,9 @@ type Writer struct {
 // TODO: Handle errors
 func (w *Writer) Write(data [][]interface{}) error {
 	srv, err := newSheetsService()
+	if err != nil {
+		return err
+	}
 
 	var vr gsheets.ValueRange
 	vr.Range = writeRange
@@ -24,9 +27,8 @@ func (w *Writer) Write(data [][]interface{}) error {
 		Append(w.SpreadsheetID, writeRange, &vr).
 		ValueInputOption("USER_ENTERED").
 		Do()
-
 	if err != nil {
-		return err
+		return errWriteFailed
 	}
 
 	return nil

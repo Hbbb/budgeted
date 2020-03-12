@@ -14,8 +14,11 @@ import (
 	gsheets "google.golang.org/api/sheets/v4"
 )
 
-// TODO: Handle errors
 func newSheetsService() (*gsheets.Service, error) {
+	if _, err := os.Stat("credentials.json"); os.IsNotExist(err) {
+		return nil, errSheetsAPINotEnabled
+	}
+
 	f, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		return nil, err
@@ -42,6 +45,8 @@ func getClient(config *oauth2.Config) *http.Client {
 
 	file := "token.json"
 	tok, err := tokenFromFile(file)
+
+	// TODO: This could fail for other reasons.
 	if err != nil {
 		tok = getTokenFromWeb(config)
 		saveToken(file, tok)
