@@ -63,6 +63,7 @@ var fetchCmd = &cobra.Command{
 		}
 
 		w := tablewriter.NewWriter(os.Stdout)
+		w.SetBorder(false)
 		w.SetHeader([]string{"transaction id", "account id", "date", "name", "amount", "city"})
 		for _, transaction := range transactions {
 			w.Append([]string{transaction.ID, transaction.AccountID, transaction.Date, transaction.Name, transaction.Amount, transaction.City})
