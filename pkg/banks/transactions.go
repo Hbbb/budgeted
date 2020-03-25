@@ -39,6 +39,12 @@ func (bc *BankClient) FetchTransactions(startDate, endDate string) ([]Transactio
 		transactions = append(transactions, ts...)
 	}
 
+	// Reverse transactions
+	for i := len(transactions)/2 - 1; i >= 0; i-- {
+		opp := len(transactions) - 1 - i
+		transactions[i], transactions[opp] = transactions[opp], transactions[i]
+	}
+
 	return transactions, nil
 }
 
